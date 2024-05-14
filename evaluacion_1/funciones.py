@@ -1,12 +1,41 @@
 class Conversiones:
-    def __init__(self, valor):
-        
-        if isinstance(valor, int):
-            self.decimal = valor
-            self.binario = ""
-        elif isinstance(valor, str):
-            self.decimal = 0
-            self.binario = valor
+    def __init__(self):        
+        self.decimal = 0.0
+        self.binario = ""
+        self.terciario = ""
+        self.cuaternario = ""
+        self.octal = ""
+        self.hexadecimal = ""
+
+    def get_decimal(self):
+        return self.decimal
+    def set_decimal(self, decimal):
+        self.decimal = decimal
+
+    def get_binario(self):
+        return self.binario
+    def set_binario(self, binario):
+        self.binario = binario
+
+    def get_terciario(self):
+        return self.terciario
+    def set_terciario(self, terciario):
+        self.terciario = terciario
+
+    def get_cuaternario(self):
+        return self.cuaternario
+    def set_cuaternario(self, cuaternario):
+        self.cuaternario = cuaternario
+
+    def get_octal(self):
+        return self.octal
+    def set_octal(self, octal):
+        self.octal = octal
+
+    def get_hexadecimal(self):
+        return self.hexadecimal
+    def set_hexadecimal(self, hexadecimal):
+        self.hexadecimal = hexadecimal
             
     def decimal_binario(self):
         if self.binario == "":
@@ -25,8 +54,7 @@ class Conversiones:
             resultado_decimal = int(self.binario, 2)
             return resultado_decimal
 
-    def decimal_terciario(self):
-        
+    def decimal_terciario(self):        
         if self.decimal == 0:
             terciario = ""
             while decimal > 0:
@@ -42,8 +70,7 @@ class Conversiones:
 
             return decimal
 
-    def decimal_cuaternario(self):
-        
+    def decimal_cuaternario(self):        
         if self.decimal == 0:
             cuaternario = ""
             while decimal > 0:
@@ -59,8 +86,7 @@ class Conversiones:
 
             return decimal
 
-    def decimal_octal(self):
-        
+    def decimal_octal(self):        
         if self.decimal == 0:
             octal = ""
             while decimal > 0:
@@ -78,7 +104,6 @@ class Conversiones:
             return decimal
         
     def decimal_hexadecimal(self):
-
         if self.decimal == 0:
             hexadecimal = ""
             while decimal > 0:
@@ -101,8 +126,6 @@ class Conversiones:
                 base *= 16
 
             return decimal
-
-
 
 
 n = Conversiones("10100")
