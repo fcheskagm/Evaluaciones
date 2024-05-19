@@ -140,6 +140,7 @@ def main(page: ft.Page):
         page.update()
 
     def click_random(e):
+        
         valor_original = original_dropdown.value
         random_num(valor_original)
         original_text_field.value = get_con(valor_original)
