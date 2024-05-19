@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 class GaussJordan:
     def __init__(self):
@@ -23,7 +22,7 @@ class GaussJordan:
             max_val = np.max(np.abs(self.matriz[i:, i]))
             max_idx = np.where(np.abs(self.matriz[i:, i]) == max_val)[0][0] + i
             if max_val == 0:
-                raise ValueError("El pivote no puede ser cero.")
+                raise ValueError()
             self.intercambiar_filas(i, max_idx)
             pivote = self.matriz[i, i]
         self.matriz[i, :] /= pivote
@@ -53,7 +52,3 @@ class GaussJordan:
         solucion = self.matriz[:, -1]
         rounded_solucion = [round(value, 2) for value in solucion]
         return rounded_solucion
-
-
-
-

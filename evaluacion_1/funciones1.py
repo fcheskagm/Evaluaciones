@@ -72,7 +72,7 @@ class Conversiones:
             res_cuaternario = ""
             while self.decimal > 0:
                 resto = self.decimal % 4
-                cuaternario = str(resto) + res_cuaternario
+                res_cuaternario = str(resto) + res_cuaternario
                 self.decimal //= 4
             self.cuaternario = res_cuaternario
 

@@ -147,82 +147,95 @@ def main(page: ft.Page):
         page.update()
 
     page.add(
-        ft.Row(
-            [
-                ft.Column(
-                    [
-                        crear_container(
-                            original_dropdown, 
-                            alignment=ft.alignment.center, 
-                            width=400, 
-                            height=100, 
-                            bgcolor=ft.colors.WHITE),
-                        crear_container(
-                            original_text_field, 
-                            alignment=ft.alignment.center, 
-                            width=400, 
-                            height=100, 
-                            bgcolor=ft.colors.WHITE),
-                        crear_container(
-                            ft.ElevatedButton(
-                                "Random",
-                                icon=ft.icons.ALL_INCLUSIVE,
-                                on_click=click_random,
-                                bgcolor='#923fe5',
-                                color='white',
+    ft.Column(
+        [
+            crear_container(
+                ft.Text(
+                    "Conversiones Numericas",
+                    size=50,
+                    color=ft.colors.BLACK,
+                    weight=ft.FontWeight.NORMAL,
+                ),
+                alignment=ft.alignment.center,
+            ),
+            ft.Row(
+                [
+                    ft.Column(
+                        [
+                            crear_container(
+                                original_dropdown, 
+                                alignment=ft.alignment.center, 
+                                width=400, 
+                                height=100, 
+                                bgcolor=ft.colors.WHITE),
+                            crear_container(
+                                original_text_field, 
+                                alignment=ft.alignment.center, 
+                                width=400, 
+                                height=100, 
+                                bgcolor=ft.colors.WHITE),
+                            crear_container(
+                                ft.ElevatedButton(
+                                    "Random",
+                                    icon=ft.icons.ALL_INCLUSIVE,
+                                    on_click=click_random,
+                                    bgcolor='#923fe5',
+                                    color='white',
                                 ), 
                                 alignment=ft.alignment.center, 
                                 width=400, 
                                 height=100, 
                                 bgcolor=ft.colors.WHITE),
-                    ],
-                    spacing=20,
-                ),
-                crear_container(
-                    ft.ElevatedButton(
-                    "Convertir", 
-                        on_click=boton_clicked,
-                        bgcolor='#923fe5',
-                        color='white',
+                        ],
+                        spacing=20,
+                    ),
+                    crear_container(
+                        ft.ElevatedButton(
+                        "Convertir", 
+                            on_click=boton_clicked,
+                            bgcolor='#923fe5',
+                            color='white',
                         ),
                         alignment=ft.alignment.center, 
                         width=120, 
                         height=100, 
                         bgcolor=ft.colors.WHITE,
-                ),
-                ft.Column(
-                    [
-                        crear_container(
-                            convertir_dropdown, 
-                            alignment=ft.alignment.center, 
-                            width=400, 
-                            height=100, 
-                            bgcolor=ft.colors.WHITE),
-                        crear_container(
-                            convertir_text_field, 
-                            alignment=ft.alignment.center, 
-                            width=400, 
-                            height=100, 
-                            bgcolor=ft.colors.WHITE),
-                        crear_container(
-                             ft.ElevatedButton(
-                                    "Eliminar", 
-                                    icon=ft.icons.RESTORE_FROM_TRASH,
-                                    on_click=eliminar_clicked,
-                                    bgcolor='#923fe5',
-                                    color='white',
-                                ),
+                    ),
+                    ft.Column(
+                        [
+                            crear_container(
+                                convertir_dropdown, 
                                 alignment=ft.alignment.center, 
                                 width=400, 
                                 height=100, 
                                 bgcolor=ft.colors.WHITE),
-                    ],
-                    spacing=20,
-                ),
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            spacing=50,
-        )
-    )
+                            crear_container(
+                                convertir_text_field, 
+                                alignment=ft.alignment.center, 
+                                width=400, 
+                                height=100, 
+                                bgcolor=ft.colors.WHITE),
+                            crear_container(
+                                 ft.ElevatedButton(
+                                        "Eliminar", 
+                                        icon=ft.icons.RESTORE_FROM_TRASH,
+                                        on_click=eliminar_clicked,
+                                        bgcolor='#923fe5',
+                                        color='white',
+                                    ),
+                                    alignment=ft.alignment.center, 
+                                    width=400, 
+                                    height=100, 
+                                    bgcolor=ft.colors.WHITE),
+                        ],
+                        spacing=20,
+                    ),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=50,
+            ),
+        ],
+    ),
+)
 
 ft.app(target=main)

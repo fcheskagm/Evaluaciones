@@ -1,27 +1,37 @@
 from funciones2 import GaussJordan
 import flet as ft
-import numpy as np
 import random
-
+import re
 
 def main(page: ft.Page):
     page.window_bgcolor = ft.colors.WHITE
     page.bgcolor = ft.colors.WHITE
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-
     contenedores_matriz = []
     solucion = []
     gj = GaussJordan()
 
+    def on_change_textfield(e):
+        error_text_cont.visible = False
+
+    def on_change(e):
+        on_change_textfield(e)
+        actua_resolver_boton()
+
     def generar_matriz(e):
-        n = int(tam_matriz.value)
+        value = tam_matriz.value
+        if not value or int(value) <= 0:
+            tam_matriz.value = ""
+            return
+        n = int(value)
         for i in range(n):
             contenedores_filas = []
             for j in range(n+1):
                 txt = ft.TextField(width=50, 
-                                   color=ft.colors.BLACK,
-                                   text_align=ft.TextAlign.CENTER,)
+                                color=ft.colors.BLACK,
+                                text_align=ft.TextAlign.CENTER,
+                                on_change=on_change,)
                 contenedores_filas.append(txt)
             contenedores_matriz.append(
                 ft.Row(controls=contenedores_filas))
@@ -32,6 +42,8 @@ def main(page: ft.Page):
         boton_m.disabled = True
         boton_eliminar_cont.visible = True
         boton_resolver_cont.visible = True
+        tam_matriz.disabled = True
+        actua_resolver_boton()
         page.update()
 
     def obtener_datos():
@@ -43,24 +55,43 @@ def main(page: ft.Page):
                     if isinstance(txt, ft.TextField):
                         fila.append(float(txt.value))
                 matriz_datos.append(fila)
-        print(matriz_datos)
         return matriz_datos
+    
+    def verificar_datos():
+        for control in contenedores_matriz:
+            if isinstance(control, ft.Row):
+                for txt in control.controls:
+                    if isinstance(txt, ft.TextField):
+                        value = txt.value
+                        if not value or not re.match(r'^-?\d*\.?\d+$', value):
+                            return False
+        return True
+    
+    def actua_resolver_boton():
+        boton_resolver_cont.visible = True
+        boton_resolver_cont.disabled = not verificar_datos()
+        page.update()
 
     def resolver(e):
+        if not verificar_datos():
+            return
         matriz_datos = []
         matriz_datos = obtener_datos()
         global solucion
         solucion = []
         gj.set_matriz(matriz_datos)
-        solucion = gj.resolver_m()
-        fila_res = ft.Row(spacing=10, alignment=ft.MainAxisAlignment.CENTER)
-
-        for i, value in enumerate(solucion, start=1):
-            text = ft.Text(f"X{i} = {value}", color="black",)
-            fila_res.controls.append(text)
-        container_res.content = fila_res
-        container_res.visible = True
-        print(solucion)
+        try:
+            solucion = gj.resolver_m()
+            fila_res = ft.Column(spacing=10, 
+                                 alignment=ft.MainAxisAlignment.CENTER)
+            for i, value in enumerate(solucion, start=1):
+                text = ft.Text(f"X{i} = {value}", color="black",)
+                fila_res.controls.append(text)
+            container_res.content = fila_res
+            container_res.visible = True
+        except ValueError as e:
+            error_text_cont.visible = True
+        actua_resolver_boton()
         page.update()
 
     def llenar_random(e):
@@ -70,27 +101,50 @@ def main(page: ft.Page):
                     if isinstance(txt, ft.TextField):
                         txt.value = str(random.randint(1, 8))
         contenedor_matriz.update()
+        actua_resolver_boton()
 
     def eliminar_clicked(e):
         global solucion
+        solucion = [1]
         contenedores_matriz.clear()
         contenedor_matriz.controls = []
         solucion.clear()
+        error_text_cont.visible = False
         container_res.visible = False
         boton_m.disabled = False
         boton_random_container.visible = False
         boton_eliminar_cont.visible = False
         boton_resolver_cont.visible = False
+        tam_matriz.disabled = False
         tam_matriz.value = ""
         page.update()
 
+    def verificar_numero(e):
+        value = e.control.value
+        if not value or not re.match(r'^-?\d+$', value) or int(value) <= 0:
+            e.control.value = ""            
+        else:
+            e.control.error_text = ""
 
-    
+    titulo = ft.Container(content=ft.Text(
+                            "Eliminacion Gauss-Jordan",
+                            size=50,
+                            color=ft.colors.BLACK,
+                            weight=ft.FontWeight.NORMAL,),
+                            alignment=ft.alignment.center,
+                            )
+
+    error_text_cont = ft.Container(content=ft.Text(
+                            "El sistema no tiene solución", 
+                            color="red"),
+                        visible=False,
+                        alignment=ft.alignment.center)
     
     tam_matriz = ft.TextField(label="Ingresar (n):", 
                               width=100, 
                               color=ft.colors.BLACK, 
-                              text_align=ft.TextAlign.CENTER,)
+                              text_align=ft.TextAlign.CENTER,
+                              on_change=verificar_numero)
     
     boton_m = ft.ElevatedButton("Generar", 
                                 on_click=generar_matriz, 
@@ -118,13 +172,11 @@ def main(page: ft.Page):
                                                                     ), 
                                                                 visible=False)
     
-    
     column = ft.Column(alignment=ft.MainAxisAlignment.CENTER)
-    column.controls = [tam_matriz, 
+    column.controls = [tam_matriz,
                        boton_m, boton_random_container,
                        boton_resolver_cont, 
-                       boton_eliminar_cont,
-                       ]
+                       boton_eliminar_cont,]
 
     contenedor_matriz = ft.Column(alignment=ft.MainAxisAlignment.CENTER)
     contenedor_matriz.controls = []
@@ -132,15 +184,17 @@ def main(page: ft.Page):
     container_res = ft.Container()
 
     column2 = ft.Column(alignment=ft.MainAxisAlignment.CENTER)
-    column2.controls = [contenedor_matriz, 
-                        container_res]
+    column2.controls = [contenedor_matriz,
+                        error_text_cont]
+
+    column3 = ft.Column(alignment=ft.MainAxisAlignment.CENTER)
+    column3.controls = [container_res]
 
     contenedor_todo = ft.Row(alignment=ft.MainAxisAlignment.CENTER)
-    contenedor_todo.controls = [column, 
-                    column2]
+    contenedor_todo.controls = [column,
+                    column2,
+                    column3]
 
-    page.add(
-        contenedor_todo,
-    )
+    page.add(titulo, contenedor_todo,)
 
 ft.app(target=main)
