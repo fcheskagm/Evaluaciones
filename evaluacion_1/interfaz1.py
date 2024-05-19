@@ -2,7 +2,7 @@ from funciones1 import Conversiones
 import random
 import flet as ft
 
-def main(page: ft.Page):
+def conversiones_page_init(page: ft.Page):
 
     c=Conversiones()
 
@@ -237,5 +237,3 @@ def main(page: ft.Page):
         ],
     ),
 )
-
-ft.app(target=main)

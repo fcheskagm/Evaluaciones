@@ -3,7 +3,7 @@ import flet as ft
 import random
 import re
 
-def main(page: ft.Page):
+def resolucion_page_init(page: ft.Page):
     page.window_bgcolor = ft.colors.WHITE
     page.bgcolor = ft.colors.WHITE
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
@@ -102,6 +102,8 @@ def main(page: ft.Page):
                         txt.value = str(random.randint(1, 8))
         contenedor_matriz.update()
         actua_resolver_boton()
+        error_text_cont.visible = False
+        page.update()
 
     def eliminar_clicked(e):
         global solucion
@@ -125,6 +127,7 @@ def main(page: ft.Page):
             e.control.value = ""            
         else:
             e.control.error_text = ""
+
 
     titulo = ft.Container(content=ft.Text(
                             "Eliminacion Gauss-Jordan",
@@ -172,6 +175,8 @@ def main(page: ft.Page):
                                                                     ), 
                                                                 visible=False)
     
+    
+
     column = ft.Column(alignment=ft.MainAxisAlignment.CENTER)
     column.controls = [tam_matriz,
                        boton_m, boton_random_container,
@@ -195,6 +200,4 @@ def main(page: ft.Page):
                     column2,
                     column3]
 
-    page.add(titulo, contenedor_todo,)
-
-ft.app(target=main)
+    page.add(titulo, contenedor_todo)
