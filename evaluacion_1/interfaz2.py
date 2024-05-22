@@ -19,10 +19,15 @@ def resolucion_page_init(page: ft.Page):
         on_change_textfield(e)
         actua_resolver_boton()
 
+    def on_change_tam_num(e):
+        tam_matriz.value = ""
+        page.update()
+
     def generar_matriz(e):
         value = tam_matriz.value
-        if not value or int(value) <= 0:
-            tam_matriz.value = ""
+        if not value or int(value) <= 0 or int(value) >=15:
+            tam_matriz.value = "Error"
+            page.update()
             return
         n = int(value)
         for i in range(n):
@@ -99,7 +104,7 @@ def resolucion_page_init(page: ft.Page):
             if isinstance(control, ft.Row):
                 for txt in control.controls:
                     if isinstance(txt, ft.TextField):
-                        txt.value = str(random.randint(1, 8))
+                        txt.value = str(random.randint(-99, 99))
         contenedor_matriz.update()
         actua_resolver_boton()
         error_text_cont.visible = False
@@ -128,6 +133,7 @@ def resolucion_page_init(page: ft.Page):
         else:
             e.control.error_text = ""
 
+    
 
     titulo = ft.Container(content=ft.Text(
                             "Eliminacion Gauss-Jordan",
@@ -143,11 +149,13 @@ def resolucion_page_init(page: ft.Page):
                         visible=False,
                         alignment=ft.alignment.center)
     
-    tam_matriz = ft.TextField(label="Ingresar (n):", 
+    tam_matriz = ft.TextField(label="Ingresar (n):",
+                              value="", 
                               width=100, 
                               color=ft.colors.BLACK, 
                               text_align=ft.TextAlign.CENTER,
-                              on_change=verificar_numero)
+                              on_change=verificar_numero,
+                              on_focus=on_change_tam_num)
     
     boton_m = ft.ElevatedButton("Generar", 
                                 on_click=generar_matriz, 

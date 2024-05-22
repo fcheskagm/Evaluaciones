@@ -91,12 +91,21 @@ def conversiones_page_init(page: ft.Page):
         valor_original = original_dropdown.value
         valor_convertir = convertir_dropdown.value
         if valor_original and valor_convertir:
-            if validar_valor_original(original_text_field.value, valor_original):
-                set_ori(valor_original)
-                c.todas_conversiones(valor_original,valor_convertir)
-                convertir_text_field.value = get_con(valor_convertir)
+            if not original_text_field.value == "":
+                if validar_valor_original(original_text_field.value, valor_original):
+                    set_ori(valor_original)
+                    c.todas_conversiones(valor_original,valor_convertir)
+                    convertir_text_field.value = get_con(valor_convertir)
+                else:
+                    convertir_text_field.value = "Valor no valido"
+                    page.update()
+            else:
+                convertir_text_field.value = "Ingrese un dato a convertir"
+                page.update()
+                return        
         else:
-            convertir_text_field.value = "Valor no válido"
+            convertir_text_field.value = "Seleccione correctamente"
+            page.update()
         page.update()
 
     def validar_valor_original(valor, base):

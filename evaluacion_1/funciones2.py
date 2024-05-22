@@ -10,9 +10,6 @@ class GaussJordan:
         self.matriz = np.array(m, dtype=np.float64)
         self.n, self.m = self.matriz.shape
 
-    def get_m(self):
-        return self.matriz
-
     def intercambiar_filas(self, i, j):
         self.matriz[[i, j], :] = self.matriz[[j, i], :]
 
