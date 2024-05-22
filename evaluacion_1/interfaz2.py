@@ -14,6 +14,9 @@ def resolucion_page_init(page: ft.Page):
 
     def on_change_textfield(e):
         error_text_cont.visible = False
+        solucion = [1]
+        solucion.clear()
+        container_res.visible = False
 
     def on_change(e):
         on_change_textfield(e)
