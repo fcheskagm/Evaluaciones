@@ -25,6 +25,10 @@ def resolucion_page_init(page: ft.Page):
 
     def generar_matriz(e):
         value = tam_matriz.value
+        if tam_matriz.value == "Error":
+            tam_matriz.value = "Error"
+            page.update()
+            return
         if not value or int(value) <= 0 or int(value) >=15:
             tam_matriz.value = "Error"
             page.update()
@@ -40,6 +44,7 @@ def resolucion_page_init(page: ft.Page):
                 contenedores_filas.append(txt)
             contenedores_matriz.append(
                 ft.Row(controls=contenedores_filas))
+        
         page.update()
         contenedor_matriz.controls = contenedores_matriz
         page.update()
